@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>Hello World | 丨可乐先生</title>
+  <title>记一次获取SHA1的操作 | 丨可乐先生</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -172,34 +172,69 @@
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2017-11-28T11:39:22.556Z" itemprop="datePublished">
-          2017-11-28
+      <time datetime="2017-12-04T06:58:43.000Z" itemprop="datePublished">
+          2017-12-04
       </time>
     
+    
+    | 
+    <a href='/tags/小知识/'>小知识</a>
+    
+    
 </span>
-                <h1>Hello World</h1>
+                <h1>记一次获取SHA1的操作</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+      		<p>记一次获取SHA1的操作时出现的问题及解决方案<br><a id="more"></a></p>
+<ul>
+<li>原创作者：<code>可乐先生</code></li>
+</ul>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><h3 id="1、因由"><a href="#1、因由" class="headerlink" title="1、因由"></a>1、因由</h3><blockquote>
+<p>在一次集成高德地图配置过程中需要debug和正式版的SHA1值，然后根据上面提示的操作在AS底部切换到<code>Terminal</code>窗口下输入<code>keytool -v -list -keystore [keystore文件路径]</code>结果显示<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，理所当然的失败了，解决办法在后面说</p>
+</blockquote>
+<h3 id="2、什么是SHA1"><a href="#2、什么是SHA1" class="headerlink" title="2、什么是SHA1"></a>2、什么是SHA1</h3><blockquote>
+<p>SHA1是秘钥库证书安全吗，秘钥库有debug和release两个版本</p>
+</blockquote>
+<ul>
+<li><strong>debug秘钥库</strong>：AS新建项目开发过程中调试<code>run</code>到手机中的都是debug版本，debug默认使用的C:\Users\[用户名]\.android\debug.keystore秘钥库</li>
+<li><strong>release秘钥库</strong>：由开发人员建的打包秘钥库，自行指定秘钥库存放路径</li>
+</ul>
+<h3 id="3、keytool工具"><a href="#3、keytool工具" class="headerlink" title="3、keytool工具"></a>3、keytool工具</h3><blockquote>
+<p>目的是用<code>keytool</code>查看秘钥库信息，而<code>keytool</code>是在哪？</p>
+<blockquote>
+<p><code>keytool</code>的目录是在JDK安装路径下的bin文件夹里面，可以找到<code>keytool.exe</code>这个可执行的<code>.exe</code>程序，但是双击之后弹出一会又很快的关闭，所以放弃手动打开keytool程序</p>
+</blockquote>
+</blockquote>
+<h2 id="二、解决方案"><a href="#二、解决方案" class="headerlink" title="二、解决方案"></a>二、解决方案</h2><ul>
+<li>由上面看到的<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，有没有一种很熟悉的感觉，是不是很像没有配置环境的时候执行在CMD中非内部命令</li>
+</ul>
+<h3 id="1、第一种方式：配置环境变量"><a href="#1、第一种方式：配置环境变量" class="headerlink" title="1、第一种方式：配置环境变量"></a>1、第一种方式：配置环境变量</h3><blockquote>
+<p>最方便的就是这种方式，将keytool配置到环境Path变量中，路径为<code>[JDK路径]\bin\keytool.exe</code>，环境就配置好了，<br>然后在AS的<code>Terminal</code>中输入<code>keytool -v -list -keystore [keystore文件路径]</code>就会提示输入秘钥库口令，<br>debug版本秘钥默认口令为<code>android</code>，release版本秘钥为自己当初设定的口令</p>
+</blockquote>
+<h3 id="2、第二种方式：cd切换到keytool所在目录"><a href="#2、第二种方式：cd切换到keytool所在目录" class="headerlink" title="2、第二种方式：cd切换到keytool所在目录"></a>2、第二种方式：cd切换到keytool所在目录</h3><blockquote>
+<p>在AS的<code>Terminal</code>窗口下显示的默认是项目工程所在目录，可以切换到<code>keytool.exe</code>所在目录，<code>cd [JDK路径]\bin</code><br>之后就如第一种方式跳过配置环境执行之后的操作一样可以得到SHA1值</p>
+</blockquote>
+<h3 id="3、第三种方式：在keytool所在目录下打开命令行"><a href="#3、第三种方式：在keytool所在目录下打开命令行" class="headerlink" title="3、第三种方式：在keytool所在目录下打开命令行\"></a>3、第三种方式：在keytool所在目录下打开命令行\</h3><blockquote>
+<p>打开JDK的文件目录进入到bin目录下，键盘按住<code>Shift</code>不动，鼠标在空白单击右键选择<code>在此处打开命令行</code><br>同样之后如第一种方式跳过配置环境执行之后的操作</p>
+</blockquote>
+<ul>
+<li><strong>注意</strong>：在输入秘钥口令时是不会显示出来的，输入完毕之后直接回车就OK了</li>
+</ul>
+<h2 id="三、后记"><a href="#三、后记" class="headerlink" title="三、后记"></a>三、后记</h2><ul>
+<li>这是自个人博客搭建以来写的一个小知识点，目前技术不强，小知识慢慢积累，若发现文章内容中有错误之处给大家带来误导表示抱歉，同时请大家动动手联系我，也欢迎大家来交流，在下非常感谢。</li>
+</ul>
+<h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a><strong>联系方式</strong></h3><p>QQ：523592872<br>微信：18520853786<br>邮箱：523592872@qq.com</p>
+<h2 id="至此，感谢大家"><a href="#至此，感谢大家" class="headerlink" title="至此，感谢大家"></a><em>至此，感谢大家</em></h2>
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
     
-    <a class="pull-left" href="/2017/12/04/获取SHA1/" style="float: left;">
-        ← 记一次获取SHA1的操作
-    </a>
     
+    <a class="pull-right" href="/2017/11/28/hello-world/">
+        Hello World →
+    </a>
     
 </nav>
 
