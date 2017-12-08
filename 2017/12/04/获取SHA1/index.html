@@ -190,34 +190,20 @@
 <ul>
 <li>原创作者：<code>可乐先生</code></li>
 </ul>
-<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><h3 id="1、因由"><a href="#1、因由" class="headerlink" title="1、因由"></a>1、因由</h3><blockquote>
-<p>在一次集成高德地图配置过程中需要debug和正式版的SHA1值，然后根据上面提示的操作在AS底部切换到<code>Terminal</code>窗口下输入<code>keytool -v -list -keystore [keystore文件路径]</code>结果显示<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，理所当然的失败了，解决办法在后面说</p>
-</blockquote>
-<h3 id="2、什么是SHA1"><a href="#2、什么是SHA1" class="headerlink" title="2、什么是SHA1"></a>2、什么是SHA1</h3><blockquote>
-<p>SHA1是秘钥库证书安全吗，秘钥库有debug和release两个版本</p>
-</blockquote>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><h3 id="1、因由"><a href="#1、因由" class="headerlink" title="1、因由"></a>1、因由</h3><p>在一次集成高德地图配置过程中需要debug和正式版的SHA1值，然后根据上面提示的操作在AS底部切换到<code>Terminal</code>窗口下输入<code>keytool -v -list -keystore [keystore文件路径]</code>结果显示<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，理所当然的失败了，解决办法在后面说</p>
+<h3 id="2、什么是SHA1"><a href="#2、什么是SHA1" class="headerlink" title="2、什么是SHA1"></a>2、什么是SHA1</h3><p>SHA1是秘钥库证书安全吗，秘钥库有debug和release两个版本</p>
 <ul>
 <li><strong>debug秘钥库</strong>：AS新建项目开发过程中调试<code>run</code>到手机中的都是debug版本，debug默认使用的C:\Users\[用户名]\.android\debug.keystore秘钥库</li>
 <li><strong>release秘钥库</strong>：由开发人员建的打包秘钥库，自行指定秘钥库存放路径</li>
 </ul>
-<h3 id="3、keytool工具"><a href="#3、keytool工具" class="headerlink" title="3、keytool工具"></a>3、keytool工具</h3><blockquote>
-<p>目的是用<code>keytool</code>查看秘钥库信息，而<code>keytool</code>是在哪？</p>
-<blockquote>
-<p><code>keytool</code>的目录是在JDK安装路径下的bin文件夹里面，可以找到<code>keytool.exe</code>这个可执行的<code>.exe</code>程序，但是双击之后弹出一会又很快的关闭，所以放弃手动打开keytool程序</p>
-</blockquote>
-</blockquote>
-<h2 id="二、解决方案"><a href="#二、解决方案" class="headerlink" title="二、解决方案"></a>二、解决方案</h2><ul>
-<li>由上面看到的<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，有没有一种很熟悉的感觉，是不是很像没有配置环境的时候执行在CMD中非内部命令</li>
+<h3 id="3、keytool工具"><a href="#3、keytool工具" class="headerlink" title="3、keytool工具"></a>3、keytool工具</h3><p>目的是用<code>keytool</code>查看秘钥库信息，而<code>keytool</code>是在哪？</p>
+<ul>
+<li><code>keytool</code>的目录是在JDK安装路径下的bin文件夹里面，可以找到<code>keytool.exe</code>这个可执行的<code>.exe</code>程序，但是双击之后弹出一会又很快的关闭，所以放弃手动打开keytool程序</li>
 </ul>
-<h3 id="1、第一种方式：配置环境变量"><a href="#1、第一种方式：配置环境变量" class="headerlink" title="1、第一种方式：配置环境变量"></a>1、第一种方式：配置环境变量</h3><blockquote>
-<p>最方便的就是这种方式，将keytool配置到环境Path变量中，路径为<code>[JDK路径]\bin\keytool.exe</code>，环境就配置好了，<br>然后在AS的<code>Terminal</code>中输入<code>keytool -v -list -keystore [keystore文件路径]</code>就会提示输入秘钥库口令，<br>debug版本秘钥默认口令为<code>android</code>，release版本秘钥为自己当初设定的口令</p>
-</blockquote>
-<h3 id="2、第二种方式：cd切换到keytool所在目录"><a href="#2、第二种方式：cd切换到keytool所在目录" class="headerlink" title="2、第二种方式：cd切换到keytool所在目录"></a>2、第二种方式：cd切换到keytool所在目录</h3><blockquote>
-<p>在AS的<code>Terminal</code>窗口下显示的默认是项目工程所在目录，可以切换到<code>keytool.exe</code>所在目录，<code>cd [JDK路径]\bin</code><br>之后就如第一种方式跳过配置环境执行之后的操作一样可以得到SHA1值</p>
-</blockquote>
-<h3 id="3、第三种方式：在keytool所在目录下打开命令行"><a href="#3、第三种方式：在keytool所在目录下打开命令行" class="headerlink" title="3、第三种方式：在keytool所在目录下打开命令行\"></a>3、第三种方式：在keytool所在目录下打开命令行\</h3><blockquote>
-<p>打开JDK的文件目录进入到bin目录下，键盘按住<code>Shift</code>不动，鼠标在空白单击右键选择<code>在此处打开命令行</code><br>同样之后如第一种方式跳过配置环境执行之后的操作</p>
-</blockquote>
+<h2 id="二、解决方案"><a href="#二、解决方案" class="headerlink" title="二、解决方案"></a>二、解决方案</h2><p>由上面看到的<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，有没有一种很熟悉的感觉，是不是很像没有配置环境的时候执行在CMD中非内部命令</p>
+<h3 id="1、第一种方式：配置环境变量"><a href="#1、第一种方式：配置环境变量" class="headerlink" title="1、第一种方式：配置环境变量"></a>1、第一种方式：配置环境变量</h3><p>最方便的就是这种方式，将keytool配置到环境Path变量中，路径为<code>[JDK路径]\bin\keytool.exe</code>，环境就配置好了，<br>然后在AS的<code>Terminal</code>中输入<code>keytool -v -list -keystore [keystore文件路径]</code>就会提示输入秘钥库口令，<br>debug版本秘钥默认口令为<code>android</code>，release版本秘钥为自己当初设定的口令</p>
+<h3 id="2、第二种方式：cd切换到keytool所在目录"><a href="#2、第二种方式：cd切换到keytool所在目录" class="headerlink" title="2、第二种方式：cd切换到keytool所在目录"></a>2、第二种方式：cd切换到keytool所在目录</h3><p>在AS的<code>Terminal</code>窗口下显示的默认是项目工程所在目录，可以切换到<code>keytool.exe</code>所在目录，<code>cd [JDK路径]\bin</code><br>之后就如第一种方式跳过配置环境执行之后的操作一样可以得到SHA1值</p>
+<h3 id="3、第三种方式：在keytool所在目录下打开命令行"><a href="#3、第三种方式：在keytool所在目录下打开命令行" class="headerlink" title="3、第三种方式：在keytool所在目录下打开命令行\"></a>3、第三种方式：在keytool所在目录下打开命令行\</h3><p>打开JDK的文件目录进入到bin目录下，键盘按住<code>Shift</code>不动，鼠标在空白单击右键选择<code>在此处打开命令行</code><br>同样之后如第一种方式跳过配置环境执行之后的操作</p>
 <ul>
 <li><strong>注意</strong>：在输入秘钥口令时是不会显示出来的，输入完毕之后直接回车就OK了</li>
 </ul>
