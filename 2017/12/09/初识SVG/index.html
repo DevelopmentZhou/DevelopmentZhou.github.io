@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>记一次获取SHA1的操作 | 丨可乐先生</title>
+  <title>初识SVG | 丨可乐先生</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -172,63 +172,158 @@
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2017-12-04T06:58:43.000Z" itemprop="datePublished">
-          2017-12-04
+      <time datetime="2017-12-08T17:13:11.000Z" itemprop="datePublished">
+          2017-12-09
       </time>
     
     
     | 
-    <a href='/tags/小知识/'>小知识</a>
+    <a href='/tags/Android学习/'>Android学习</a>
     
     
 </span>
-                <h1>记一次获取SHA1的操作</h1>
+                <h1>初识SVG</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<p>记一次获取SHA1的操作时出现的问题及解决方案<br><a id="more"></a></p>
+      		<p>认识一下SVG规范及Android中的应用<br><a id="more"></a></p>
+<h2 id="一、SVG与位图的区别"><a href="#一、SVG与位图的区别" class="headerlink" title="一、SVG与位图的区别"></a>一、SVG与位图的区别</h2><p>SVG是指可伸缩矢量图形 (Scalable Vector Graphics)，它不同于传统的位图，不是通过存储图像中每一点的像素值来保存与使用图形，而是通过 XML 文件来定义一个图形，通过一些特定的语法和规则来绘制出我们所需的图像——同样是使用一张图片，SVG 的方式是事先定义好怎么去画这个图，然后等要用的时候再把它去画出来，而使用传统的位图的话就是已经有了画出来的图，然后要用的时候直接把画好的图拿出来用。这样一来的话我们就很容易可以分析出它们两种方式之间的优劣之处：</p>
 <ul>
-<li>原创作者：<code>可乐先生</code></li>
+<li>SVG 是在要用图的时候再把图画出来，所以理所当然的在图片显示的时候会花费更多的时间消耗更多的资源。</li>
+<li>同样由于上一个原因， SVG并不太适合层次过于复杂细节过于繁多的图片。</li>
+<li>位图是事先已经画好的图片，所以适应性必然没有 SVG 好，同一张图片在不同分辨率下显示会有差异。</li>
+<li>SVG 的文件里存储了绘制图片的相关信息，所以我们能够对图片的线条有一个非常清晰的感知，这在做动画的时候特别有用。</li>
+<li>SVG 没有存储任何图像的像素信息，所以 SVG 的文件体积远小于传统的位图文件。</li>
+<li>SVG 的文件画出来的图像是矢量图，所以不会存在失真的问题，理论上支持任何级别的缩放。</li>
 </ul>
-<hr>
-<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><h3 id="1、因由"><a href="#1、因由" class="headerlink" title="1、因由"></a>1、因由</h3><ul>
-<li>在一次集成高德地图配置过程中需要debug和正式版的SHA1值，然后根据上面提示的操作在AS底部切换到<code>Terminal</code>窗口下输入<code>keytool -v -list -keystore [keystore文件路径]</code>结果显示<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，理所当然的失败了，解决办法在后面说</li>
+<blockquote>
+<p>Android对于SVG的支持是从<strong>Android L</strong>开始的，但目前市场的手机是<strong>Android L</strong>以上的不足一半</p>
+</blockquote>
+<h2 id="二、SVG的使用"><a href="#二、SVG的使用" class="headerlink" title="二、SVG的使用"></a>二、SVG的使用</h2><p>###1. 获得一个SVG文件</p>
+<ul>
+<li>通过 AI 或一些网站作图之后导出它的 SVG 文件</li>
 </ul>
-<h3 id="2、什么是SHA1"><a href="#2、什么是SHA1" class="headerlink" title="2、什么是SHA1"></a>2、什么是SHA1</h3><ul>
-<li>SHA1是秘钥库证书安全吗，秘钥库有debug和release两个版本</li>
+<p>###2. 自己写一个SVG文件</p>
+<p><strong>举个栗子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        android:width=&quot;132dp&quot;</span><br><span class="line">        android:height=&quot;132dp&quot;</span><br><span class="line">        android:viewportHeight=&quot;132.0&quot;</span><br><span class="line">        android:viewportWidth=&quot;132.0&quot;&gt;</span><br><span class="line">    &lt;path</span><br><span class="line">        android:pathData=&quot;M50,2 L80.813,2 L80.813,130 L50,130 L50,2 Z&quot;</span><br><span class="line">        android:strokeColor=&quot;#e33e2b&quot;</span><br><span class="line">        android:strokeWidth=&quot;8&quot; /&gt;</span><br><span class="line">&lt;/vector&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从上面可以看到SVG 文件在 Android 中的载体是一个 <code>&lt;vector/&gt;</code> 标签，而绘制图片的工作是在 <code>&lt;path/&gt;</code> 这个子标签里面做的。</li>
 </ul>
-<p><strong>debug秘钥库</strong>：AS新建项目开发过程中调试<code>run</code>到手机中的都是debug版本，debug默认使用的<code>C:\Users\[用户名]\.android\debug.keystore秘钥库</code><br><strong>release秘钥库</strong>：由开发人员建的打包秘钥库，自行指定秘钥库存放路径</p>
-<h3 id="3、keytool工具"><a href="#3、keytool工具" class="headerlink" title="3、keytool工具"></a>3、keytool工具</h3><ul>
-<li>目的是用<code>keytool</code>查看秘钥库信息，而<code>keytool</code>是在哪？</li>
+<blockquote>
+<p><strong>vector</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">width</td>
+<td style="text-align:center">dimen</td>
+<td style="text-align:center">必填属性</td>
+<td style="text-align:center">图形的实际宽度，可在使用时根据需要再次定义</td>
+</tr>
+<tr>
+<td style="text-align:center">height</td>
+<td style="text-align:center">dimen</td>
+<td style="text-align:center">必填属性</td>
+<td style="text-align:center">图形的实际长度，可在使用时根据需要再次定义</td>
+</tr>
+<tr>
+<td style="text-align:center">viewportHeight</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">必填属性</td>
+<td style="text-align:center">定义画布的尺寸</td>
+</tr>
+<tr>
+<td style="text-align:center">viewportWidth</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">必填属性</td>
+<td style="text-align:center">定义画布的尺寸</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>path</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">pathData</td>
+<td style="text-align:center">String</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">画图的核心所在，有一定的语法，根据它来绘制目标图形</td>
+</tr>
+<tr>
+<td style="text-align:center">strokeColor</td>
+<td style="text-align:center">color</td>
+<td style="text-align:center">透明</td>
+<td style="text-align:center">画笔的颜色</td>
+</tr>
+<tr>
+<td style="text-align:center">name</td>
+<td style="text-align:center">String</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">这一条path的name，在其他地方可以根据name来找到这一条path</td>
+</tr>
+<tr>
+<td style="text-align:center">strokeWidth</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">0.0</td>
+<td style="text-align:center">画笔的宽度</td>
+</tr>
+<tr>
+<td style="text-align:center">fillColor</td>
+<td style="text-align:center">color</td>
+<td style="text-align:center">透明</td>
+<td style="text-align:center">用颜色填充绘制过的区域，如果图形是闭合的就直接填充，如果图形不是闭合的那么就将图形的起点和终点相连使其闭合然后填充</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><code>pathData</code>的绘制语法</strong></p>
+</blockquote>
+<ul>
+<li>M = moveto(M X,Y)：将画笔移动到指定的坐标位置，但未发生绘制</li>
+<li>L = lineto(L X,Y)：画直线到指定的坐标位置</li>
+<li>H = horizontal lineto(H X)：画水平线到指定的X轴坐标</li>
+<li>V = vertical lineto(V Y)：画垂直线到指定的Y轴坐标</li>
+<li>C = curveto(C X1,Y1,X2,Y2,ENDX,ENDY)：三次贝塞曲线</li>
+<li>S = smooth curveto(S X2,Y2,ENDX,ENDY)：三次贝塞曲线</li>
+<li>Q = quadratic Belzier curveto(Q X,Y,ENDX,ENDY)：二次贝塞曲线</li>
+<li>T = smooth quadratic Belzier curveto(T ENDX,ENDY)：映射前面路径后的终点</li>
+<li>A = elliptical Arc(A RX,RY,XROTATION,FLAG1,FLAG2,X,Y)：弧线</li>
+<li>Z = closepath()：关闭路径</li>
 </ul>
-<p><code>keytool</code>的目录是在JDK安装路径下的bin文件夹里面，可以找到<code>keytool.exe</code>这个可执行的<code>.exe</code>程序，但是双击之后弹出一会又很快的关闭，所以放弃手动打开keytool程序</p>
-<h2 id="二、解决方案"><a href="#二、解决方案" class="headerlink" title="二、解决方案"></a>二、解决方案</h2><ul>
-<li>由上面看到的<code>&#39;keytool&#39; 不是内部或外部命令，也不是可运行的程序或批处理文件</code>，有没有一种很熟悉的感觉，是不是很像没有配置环境的时候在CMD中执行javac等命令提示的信息</li>
+<p><strong>上述所有指令大小写均可。大写表示绝对定位，参照全局坐标系；小写表示相对定位，参照父容器坐标系。指令和数据间的空格可以省略。同一指令出现多次可以只用一个。</strong></p>
+<p>###3. 在AndroidStudio下新建一个SVG文件方式是</p>
+<ul>
+<li>在drawable包下右键<code>new</code>-&gt;<code>Vector Asset</code>就可以了</li>
 </ul>
-<h3 id="1、第一种方式：配置环境变量"><a href="#1、第一种方式：配置环境变量" class="headerlink" title="1、第一种方式：配置环境变量"></a>1、第一种方式：配置环境变量</h3><ul>
-<li>最方便的就是这种方式，将keytool配置到环境Path变量中，路径为<code>[JDK路径]\bin\keytool.exe</code>，环境就配置好了，<br>然后在AS的<code>Terminal</code>中输入<code>keytool -v -list -keystore [keystore文件路径]</code>就会提示输入秘钥库口令，<br>debug版本秘钥默认口令为<code>android</code>，release版本秘钥为自己当初设定的口令</li>
-</ul>
-<h3 id="2、第二种方式：cd切换到keytool所在目录"><a href="#2、第二种方式：cd切换到keytool所在目录" class="headerlink" title="2、第二种方式：cd切换到keytool所在目录"></a>2、第二种方式：cd切换到keytool所在目录</h3><ul>
-<li>在AS的<code>Terminal</code>窗口下显示的默认是项目工程所在目录，可以切换到<code>keytool.exe</code>所在目录，<code>cd [JDK路径]\bin</code><br>之后就如第一种方式跳过配置环境执行之后的操作一样可以得到SHA1值</li>
-</ul>
-<h3 id="3、第三种方式：在keytool所在目录下打开命令行"><a href="#3、第三种方式：在keytool所在目录下打开命令行" class="headerlink" title="3、第三种方式：在keytool所在目录下打开命令行"></a>3、第三种方式：在keytool所在目录下打开命令行</h3><ul>
-<li>打开JDK的文件目录进入到bin目录下，键盘按住<code>Shift</code>不动，鼠标在空白单击右键选择<code>在此处打开命令行</code><br>同样之后如第一种方式跳过配置环境执行之后的操作</li>
-</ul>
-<p><strong>注意</strong>：在输入路径时，一般情况下debug和release密钥库的后缀名是不一样，debug默认密钥库后缀是keystore，release密钥库后缀是jks，输入相关密钥库时严格按照其后缀名输入。在输入秘钥口令时命令行是不会显示出来的，输入完毕之后直接回车就OK了</p>
-<h2 id="三、后记"><a href="#三、后记" class="headerlink" title="三、后记"></a>三、后记</h2><ul>
-<li>这是自个人博客搭建以来写的一个小知识点，目前技术不强，小知识慢慢积累，若发现文章内容中有错误之处给大家带来误导表示抱歉，同时请大家动动手联系我，也欢迎大家来交流，在下非常感谢。</li>
-</ul>
-<h4 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a><strong>联系方式</strong></h4><p>QQ：523592872<br>微信：18520853786<br>邮箱：523592872@qq.com</p>
-<h2 id="至此，感谢大家"><a href="#至此，感谢大家" class="headerlink" title="至此，感谢大家"></a><em>至此，感谢大家</em></h2>
+<p><em>传送门-<a href="http://www.cnblogs.com/yuhanghzsd/p/5466846.html" target="_blank" rel="noopener">Android vector标签 PathData 画图超详解</a></em></p>
+
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
     
-    <a class="pull-left" href="/2017/12/09/初识SVG/" style="float: left;">
-        ← 初识SVG
-    </a>
     
+    <a class="pull-right" href="/2017/12/04/获取SHA1/">
+        记一次获取SHA1的操作 →
+    </a>
     
 </nav>
 
